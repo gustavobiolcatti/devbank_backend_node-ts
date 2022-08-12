@@ -8,9 +8,9 @@ require("reflect-metadata");
 var app_1 = __importDefault(require("./app"));
 var data_source_1 = __importDefault(require("./data-source"));
 dotenv_1.default.config();
-var port = 3000;
+var port = process.env.PORT || 3000;
 app_1.default.listen(port, function () {
-    console.log("Servidor ouvindo em http://localhost:".concat(port));
+    console.log("Servidor iniciado");
     data_source_1.default
         .initialize()
         .then(function () { return console.log("Banco conectado"); })
