@@ -1,9 +1,11 @@
-
+import dotenv from 'dotenv';
 import "reflect-metadata";
 import app from "./app";
 import AppDataSource from "./data-source";
 
-const port = 3000;
+dotenv.config();
+
+const port = process.env.PORT || 3000;
 
 app.listen(
     port, 
