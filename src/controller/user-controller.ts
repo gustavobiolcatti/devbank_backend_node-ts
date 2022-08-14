@@ -18,6 +18,21 @@ export default class UserController {
         }
     }
 
+    static findByEmail = async (req: Request, res: Response) => {
+        try {
+            const { email } = req.params;
+
+            const resp = await repo.findOneBy({ email });
+
+            return res.status(200).json(resp);
+        }
+        catch (error: any) {
+            return res.json({
+                message: error.message
+            });
+        }
+    }
+
     //POST
     static create = async (req: Request, res: Response) => {
         try {
@@ -37,16 +52,18 @@ export default class UserController {
     }
 
     //PUT
-    static updateById = async (req: Request, res: Response) => {
+    static updateByEmail = async (req: Request, res: Response) => {
         try {
-            const { id } = req.params;
             const data = req.body;
+            const { email } = req.params;
 
-            await repo.update(id, data)
+            const { id } = await repo.findOneBy({ email });
+
+            await repo.update(id, data);
 
             return res.status(300).json({
-                message: `Usuário ${id} atualizado`
-            })
+                message: `Usuário ${email} atualizado`
+            });
         } 
         catch (error: any) {
             return res.json({
@@ -56,15 +73,17 @@ export default class UserController {
     }
 
     //DELETE
-    static deleteById = async (req: Request, res: Response) => {
+    static deleteByEmail = async (req: Request, res: Response) => {
         try {
-            const { id } = req.params
+            const { email } = req.params;
 
-            await repo.delete(id)
+            const { id } = await repo.findOneBy({ email });
+
+            await repo.delete(id);
 
             return res.status(200).json({
-                message: `Usuário ${id} deletado`
-            })
+                message: `Usuário ${email} deletado`
+            });
         }
         catch (error: any) {
             return res.json({
