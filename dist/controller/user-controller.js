@@ -67,9 +67,29 @@ var UserController = /** @class */ (function () {
             }
         });
     }); };
+    UserController.findByEmail = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var email, resp, error_2;
+        return __generator(_a, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 2, , 3]);
+                    email = req.params.email;
+                    return [4 /*yield*/, repo.findOneBy({ email: email })];
+                case 1:
+                    resp = _b.sent();
+                    return [2 /*return*/, res.status(200).json(resp)];
+                case 2:
+                    error_2 = _b.sent();
+                    return [2 /*return*/, res.json({
+                            message: error_2.message
+                        })];
+                case 3: return [2 /*return*/];
+            }
+        });
+    }); };
     //POST
     UserController.create = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var data, error_2;
+        var data, error_3;
         return __generator(_a, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -83,30 +103,6 @@ var UserController = /** @class */ (function () {
                             data: data
                         })];
                 case 2:
-                    error_2 = _b.sent();
-                    return [2 /*return*/, res.json({
-                            message: error_2.message
-                        })];
-                case 3: return [2 /*return*/];
-            }
-        });
-    }); };
-    //PUT
-    UserController.updateById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var id, data, error_3;
-        return __generator(_a, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    _b.trys.push([0, 2, , 3]);
-                    id = req.params.id;
-                    data = req.body;
-                    return [4 /*yield*/, repo.update(id, data)];
-                case 1:
-                    _b.sent();
-                    return [2 /*return*/, res.status(300).json({
-                            message: "Usu\u00E1rio ".concat(id, " atualizado")
-                        })];
-                case 2:
                     error_3 = _b.sent();
                     return [2 /*return*/, res.json({
                             message: error_3.message
@@ -115,26 +111,56 @@ var UserController = /** @class */ (function () {
             }
         });
     }); };
-    //DELETE
-    UserController.deleteById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var id, error_4;
+    //PUT
+    UserController.updateByEmail = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var data, email, id, error_4;
         return __generator(_a, function (_b) {
             switch (_b.label) {
                 case 0:
-                    _b.trys.push([0, 2, , 3]);
-                    id = req.params.id;
-                    return [4 /*yield*/, repo.delete(id)];
+                    _b.trys.push([0, 3, , 4]);
+                    data = req.body;
+                    email = req.params.email;
+                    return [4 /*yield*/, repo.findOneBy({ email: email })];
                 case 1:
-                    _b.sent();
-                    return [2 /*return*/, res.status(200).json({
-                            message: "Usu\u00E1rio ".concat(id, " deletado")
-                        })];
+                    id = (_b.sent()).id;
+                    return [4 /*yield*/, repo.update(id, data)];
                 case 2:
+                    _b.sent();
+                    return [2 /*return*/, res.status(300).json({
+                            message: "Usu\u00E1rio ".concat(email, " atualizado")
+                        })];
+                case 3:
                     error_4 = _b.sent();
                     return [2 /*return*/, res.json({
                             message: error_4.message
                         })];
-                case 3: return [2 /*return*/];
+                case 4: return [2 /*return*/];
+            }
+        });
+    }); };
+    //DELETE
+    UserController.deleteByEmail = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var email, id, error_5;
+        return __generator(_a, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 3, , 4]);
+                    email = req.params.email;
+                    return [4 /*yield*/, repo.findOneBy({ email: email })];
+                case 1:
+                    id = (_b.sent()).id;
+                    return [4 /*yield*/, repo.delete(id)];
+                case 2:
+                    _b.sent();
+                    return [2 /*return*/, res.status(200).json({
+                            message: "Usu\u00E1rio ".concat(email, " deletado")
+                        })];
+                case 3:
+                    error_5 = _b.sent();
+                    return [2 /*return*/, res.json({
+                            message: error_5.message
+                        })];
+                case 4: return [2 /*return*/];
             }
         });
     }); };

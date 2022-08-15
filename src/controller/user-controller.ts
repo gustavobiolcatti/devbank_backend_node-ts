@@ -6,7 +6,7 @@ const repo = dataSource.getRepository(User);
 
 export default class UserController {
     //GET
-    static findAll = async (req: Request, res: Response) => {
+    static findAll = async (req: Request, res: Response): Promise<Response>  => {
         try {
             const users = await repo.find();
             return res.status(200).json(users);
@@ -18,7 +18,7 @@ export default class UserController {
         }
     }
 
-    static findByEmail = async (req: Request, res: Response) => {
+    static findByEmail = async (req: Request, res: Response): Promise<Response> => {
         try {
             const { email } = req.params;
 
@@ -34,7 +34,7 @@ export default class UserController {
     }
 
     //POST
-    static create = async (req: Request, res: Response) => {
+    static create = async (req: Request, res: Response): Promise<Response> => {
         try {
             const data = req.body;
             await repo.save(data);
@@ -52,7 +52,7 @@ export default class UserController {
     }
 
     //PUT
-    static updateByEmail = async (req: Request, res: Response) => {
+    static updateByEmail = async (req: Request, res: Response): Promise<Response> => {
         try {
             const data = req.body;
             const { email } = req.params;
@@ -73,7 +73,7 @@ export default class UserController {
     }
 
     //DELETE
-    static deleteByEmail = async (req: Request, res: Response) => {
+    static deleteByEmail = async (req: Request, res: Response): Promise<Response> => {
         try {
             const { email } = req.params;
 

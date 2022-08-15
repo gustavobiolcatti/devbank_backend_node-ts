@@ -10,7 +10,7 @@ var data_source_1 = __importDefault(require("./data-source"));
 dotenv_1.default.config();
 var port = process.env.PORT || 3000;
 app_1.default.listen(port, function () {
-    console.log("Servidor iniciado");
+    console.log("Servidor iniciado na porta ".concat(port));
     data_source_1.default
         .initialize()
         .then(function () { return console.log("Banco conectado"); })

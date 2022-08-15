@@ -10,11 +10,11 @@ const port = process.env.PORT || 3000;
 app.listen(
     port, 
     () => {
-        console.log(`Servidor iniciado`)
+        console.log(`Servidor iniciado na porta ${port}`);
 
         AppDataSource
             .initialize()
             .then(() => console.log(`Banco conectado`))
-            .catch(error => console.log(`error.message :>> ${error.message}`))
+            .catch(error => console.log(`error.message :>> ${error.message}`));
     }
 );
