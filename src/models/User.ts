@@ -35,7 +35,8 @@ export default class User {
             eager: true,
             onDelete: "CASCADE",
             
-        })
+        }
+    )
     @JoinColumn()
     account: Account;
 

@@ -4,8 +4,11 @@ import {
 } from "express";
 import dataSource from "../data-source";
 import Operation from "../models/Operation";
+import User from "../models/User";
+import AccountController from "./account-controller";
+import { userRepo } from "./user-controller";
 
-const operationRepo = dataSource.getRepository(Operation);
+export const operationRepo = dataSource.getRepository(Operation);
 
 export default class OperationController {
     //GET
@@ -18,29 +21,37 @@ export default class OperationController {
             return res.json({
                 message: error.message
             });
-        }
-    }
+        };
+    };
 
-    static findById = async (req: Request, res: Response): Promise<Response> => {
+    static findByEmail = async (req: Request, res: Response): Promise<Response> => {
         try {
-            const { id } = req.params;
-            const account = await operationRepo.findOne( { where: { id } });
+            const { email } = req.params;
 
-            return res.status(200).json(account);
+            const user: User = await userRepo.findOneBy({ email });
+
+            const operations: Operation[] = await operationRepo.findBy([
+                {sender: user.account.accountNumber}, 
+                {receiver: user.account.accountNumber}
+            ]);
+
+            return res.status(200).json(operations);
         }
         catch (error: any) {
             return res.json({
                 message: error.message
             });
-        }
-    }
+        };
+    };
 
     //POST
     static createOperation = async (req: Request, res: Response): Promise<Response> => {
         try {
             const operation: Operation = req.body;
 
-            await operationRepo.save(operation)
+            await operationRepo.save(operation);
+
+            await AccountController.updateBalance(operation.sender, operation.receiver, operation.value);
 
             return res.status(200).json(operation);
         }
@@ -48,6 +59,6 @@ export default class OperationController {
             return res.json({
                 message: error.message
             });
-        }
-    }
+        };
+    };
 }
