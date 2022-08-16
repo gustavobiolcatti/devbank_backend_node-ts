@@ -9,21 +9,14 @@ export const accountRepo = dataSource.getRepository(Account);
 export default class AccountController {
     static updateBalance = async (sender: number, receiver: number, value: number): Promise<void> => {
         try {
-            let newBalance: number = 0;
+            const accountSender: Account = await accountRepo.findOneBy({accountNumber: sender});
+            const accountReceiver: Account = await accountRepo.findOneBy({accountNumber: receiver});
 
-            const account: Account = await accountRepo.findOneBy([
-                {accountNumber: sender},
-                {accountNumber: receiver}
-            ]);
+            const newBalanceSender = accountSender.balance - value;
+            const newBalanceReceiver = accountReceiver.balance + value;
 
-            if (account.accountNumber === sender) {
-                newBalance = account.balance - value;
-            }
-            else {
-                newBalance = account.balance + value;
-            };
-
-            await accountRepo.update(account.id, {balance: newBalance});
+            await accountRepo.update(accountSender.id, {balance: newBalanceSender});
+            await accountRepo.update(accountReceiver.id, {balance: newBalanceReceiver});
         }
         catch (error) {};
     };
