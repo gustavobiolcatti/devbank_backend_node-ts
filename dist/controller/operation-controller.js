@@ -39,26 +39,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var User_1 = __importDefault(require("../models/User"));
-var data_source_1 = __importDefault(require("./../data-source"));
-var account_controller_1 = __importDefault(require("./account-controller"));
-var userRepo = data_source_1.default.getRepository(User_1.default);
-var UserController = /** @class */ (function () {
-    function UserController() {
+var data_source_1 = __importDefault(require("../data-source"));
+var Operation_1 = __importDefault(require("../models/Operation"));
+var operationRepo = data_source_1.default.getRepository(Operation_1.default);
+var OperationController = /** @class */ (function () {
+    function OperationController() {
     }
     var _a;
-    _a = UserController;
+    _a = OperationController;
     //GET
-    UserController.findAll = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var users, error_1;
+    OperationController.findAll = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var operations, error_1;
         return __generator(_a, function (_b) {
             switch (_b.label) {
                 case 0:
                     _b.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, userRepo.find()];
+                    return [4 /*yield*/, operationRepo.find()];
                 case 1:
-                    users = _b.sent();
-                    return [2 /*return*/, res.status(200).json(users)];
+                    operations = _b.sent();
+                    return [2 /*return*/, res.status(200).json(operations)];
                 case 2:
                     error_1 = _b.sent();
                     return [2 /*return*/, res.json({
@@ -68,17 +67,17 @@ var UserController = /** @class */ (function () {
             }
         });
     }); };
-    UserController.findByEmail = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var email, resp, error_2;
+    OperationController.findById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var id, account, error_2;
         return __generator(_a, function (_b) {
             switch (_b.label) {
                 case 0:
                     _b.trys.push([0, 2, , 3]);
-                    email = req.params.email;
-                    return [4 /*yield*/, userRepo.findOneBy({ email: email })];
+                    id = req.params.id;
+                    return [4 /*yield*/, operationRepo.findOne({ where: { id: id } })];
                 case 1:
-                    resp = _b.sent();
-                    return [2 /*return*/, res.status(200).json(resp)];
+                    account = _b.sent();
+                    return [2 /*return*/, res.status(200).json(account)];
                 case 2:
                     error_2 = _b.sent();
                     return [2 /*return*/, res.json({
@@ -89,20 +88,17 @@ var UserController = /** @class */ (function () {
         });
     }); };
     //POST
-    UserController.create = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var data, error_3;
+    OperationController.createOperation = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var operation, error_3;
         return __generator(_a, function (_b) {
             switch (_b.label) {
                 case 0:
                     _b.trys.push([0, 2, , 3]);
-                    data = req.body;
-                    return [4 /*yield*/, userRepo.save(data)];
+                    operation = req.body;
+                    return [4 /*yield*/, operationRepo.save(operation)];
                 case 1:
                     _b.sent();
-                    return [2 /*return*/, res.status(201).json({
-                            message: 'Usuário criado com sucesso',
-                            data: data
-                        })];
+                    return [2 /*return*/, res.status(200).json(operation)];
                 case 2:
                     error_3 = _b.sent();
                     return [2 /*return*/, res.json({
@@ -112,63 +108,7 @@ var UserController = /** @class */ (function () {
             }
         });
     }); };
-    //PUT
-    UserController.updateByEmail = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var data, email, id, error_4;
-        return __generator(_a, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    _b.trys.push([0, 3, , 4]);
-                    data = req.body;
-                    email = req.params.email;
-                    return [4 /*yield*/, userRepo.findOneBy({ email: email })];
-                case 1:
-                    id = (_b.sent()).id;
-                    return [4 /*yield*/, userRepo.update(id, data)];
-                case 2:
-                    _b.sent();
-                    return [2 /*return*/, res.status(300).json({
-                            message: "Usu\u00E1rio ".concat(email, " atualizado")
-                        })];
-                case 3:
-                    error_4 = _b.sent();
-                    return [2 /*return*/, res.json({
-                            message: error_4.message
-                        })];
-                case 4: return [2 /*return*/];
-            }
-        });
-    }); };
-    //DELETE
-    UserController.deleteByEmail = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var email, user, error_5;
-        return __generator(_a, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    _b.trys.push([0, 4, , 5]);
-                    email = req.params.email;
-                    return [4 /*yield*/, userRepo.findOneBy({ email: email })];
-                case 1:
-                    user = _b.sent();
-                    return [4 /*yield*/, userRepo.delete(user.id)];
-                case 2:
-                    _b.sent();
-                    return [4 /*yield*/, account_controller_1.default.deleteById(user.account.id)];
-                case 3:
-                    _b.sent();
-                    return [2 /*return*/, res.status(200).json({
-                            message: "Usu\u00E1rio e conta de ".concat(email, " deletado")
-                        })];
-                case 4:
-                    error_5 = _b.sent();
-                    return [2 /*return*/, res.json({
-                            message: error_5.message
-                        })];
-                case 5: return [2 /*return*/];
-            }
-        });
-    }); };
-    return UserController;
+    return OperationController;
 }());
-exports.default = UserController;
-//# sourceMappingURL=user-controller.js.map
+exports.default = OperationController;
+//# sourceMappingURL=operation-controller.js.map

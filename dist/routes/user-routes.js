@@ -12,4 +12,4 @@ userRoutes.post('/', user_controller_1.default.create);
 userRoutes.put('/:email', user_controller_1.default.updateByEmail);
 userRoutes.delete('/:email', user_controller_1.default.deleteByEmail);
 exports.default = userRoutes;
-//# sourceMappingURL=userRoutes.js.map
+//# sourceMappingURL=user-routes.js.map

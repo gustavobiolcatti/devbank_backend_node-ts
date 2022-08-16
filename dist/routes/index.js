@@ -4,8 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
-var userRoutes_1 = __importDefault(require("./userRoutes"));
+var account_routes_1 = __importDefault(require("./account-routes"));
+var operation_routes_1 = __importDefault(require("./operation-routes"));
+var user_routes_1 = __importDefault(require("./user-routes"));
 var routes = (0, express_1.Router)();
-routes.use('/user', userRoutes_1.default);
+routes.use('/user', user_routes_1.default);
+routes.use('/account', account_routes_1.default);
+routes.use('/operation', operation_routes_1.default);
 exports.default = routes;
 //# sourceMappingURL=index.js.map

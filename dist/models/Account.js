@@ -13,53 +13,49 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var typeorm_1 = require("typeorm");
-var Account_1 = __importDefault(require("./Account"));
-var User = /** @class */ (function () {
-    function User() {
+var User_1 = __importDefault(require("./User"));
+var Account = /** @class */ (function () {
+    function Account() {
     }
-    User_1 = User;
-    var User_1;
+    Account_1 = Account;
+    var Account_1;
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
         __metadata("design:type", String)
-    ], User.prototype, "id", void 0);
+    ], Account.prototype, "id", void 0);
     __decorate([
         (0, typeorm_1.Column)({
-            length: 250,
+            default: 1234
         }),
-        __metadata("design:type", String)
-    ], User.prototype, "name", void 0);
+        __metadata("design:type", Number)
+    ], Account.prototype, "agency", void 0);
     __decorate([
         (0, typeorm_1.Column)({
-            unique: true
+            type: "integer",
+            name: 'account_number',
+            unique: true,
         }),
-        __metadata("design:type", String)
-    ], User.prototype, "email", void 0);
+        __metadata("design:type", Number)
+    ], Account.prototype, "accountNumber", void 0);
     __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], User.prototype, "password", void 0);
-    __decorate([
-        (0, typeorm_1.OneToOne)(function (type) { return Account_1.default; }, function (user) { return User_1; }, {
-            cascade: true,
-            eager: true,
-            onDelete: "CASCADE",
+        (0, typeorm_1.Column)({
+            default: 0,
+            nullable: false,
         }),
-        (0, typeorm_1.JoinColumn)(),
-        __metadata("design:type", Account_1.default)
-    ], User.prototype, "account", void 0);
+        __metadata("design:type", Number)
+    ], Account.prototype, "balance", void 0);
+    __decorate([
+        (0, typeorm_1.OneToOne)(function (type) { return User_1.default; }, function (account) { return Account_1; }),
+        __metadata("design:type", User_1.default)
+    ], Account.prototype, "user", void 0);
     __decorate([
         (0, typeorm_1.CreateDateColumn)({ name: 'created_At' }),
         __metadata("design:type", Date)
-    ], User.prototype, "createdAt", void 0);
-    __decorate([
-        (0, typeorm_1.UpdateDateColumn)({ name: 'updated_At' }),
-        __metadata("design:type", Date)
-    ], User.prototype, "updatedAt", void 0);
-    User = User_1 = __decorate([
+    ], Account.prototype, "createdAt", void 0);
+    Account = Account_1 = __decorate([
         (0, typeorm_1.Entity)()
-    ], User);
-    return User;
+    ], Account);
+    return Account;
 }());
-exports.default = User;
-//# sourceMappingURL=User.js.map
+exports.default = Account;
+//# sourceMappingURL=Account.js.map
