@@ -15,7 +15,7 @@ console.log('process.env.DATABASE_URL :>> ', process.env.DATABASE_URL)
 const dataSource = new DataSource({
     type: "postgres",
     url: process.env.DATABASE_URL,
-    synchronize: false,
+    synchronize: true,
     logging: false,
     entities: [User, Account, Operation],
     migrations: [
