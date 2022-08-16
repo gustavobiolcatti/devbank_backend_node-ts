@@ -1,6 +1,8 @@
+import { userRepo } from './user-controller';
 import { Request, response, Response } from 'express';
 import dataSource from '../data-source';
 import Account from '../models/Account';
+import User from '../models/User';
 
 export const accountRepo = dataSource.getRepository(Account);
 
@@ -55,10 +57,11 @@ export default class AccountController {
 
     static getBalance = async (req: Request, res: Response): Promise<Response> => {
         try {
-            const accountNumber: number = parseInt(req.params.accountNumber);
-            const { balance }: Account = await accountRepo.findOneBy({ accountNumber });
+            const { email } = req.params;
+            
+            const user: User = await userRepo.findOneBy({ email });
 
-            return res.status(200).json(balance);
+            return res.status(200).json(user.account.balance);
         } 
         catch (error: any) {
             return res.json({
