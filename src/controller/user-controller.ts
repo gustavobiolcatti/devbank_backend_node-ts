@@ -1,14 +1,15 @@
 import { Request, Response } from "express";
+import { Repository } from "typeorm";
 import User from "../models/User";
 import dataSource from './../data-source';
+import AccountController from "./account-controller";
 
-const repo = dataSource.getRepository(User);
-
+const userRepo = dataSource.getRepository(User);
 export default class UserController {
     //GET
     static findAll = async (req: Request, res: Response): Promise<Response>  => {
         try {
-            const users = await repo.find();
+            const users: User[] = await userRepo.find();
             return res.status(200).json(users);
         }
         catch (error: any) {
@@ -22,7 +23,7 @@ export default class UserController {
         try {
             const { email } = req.params;
 
-            const resp = await repo.findOneBy({ email });
+            const resp = await userRepo.findOneBy({ email });
 
             return res.status(200).json(resp);
         }
@@ -37,7 +38,7 @@ export default class UserController {
     static create = async (req: Request, res: Response): Promise<Response> => {
         try {
             const data = req.body;
-            await repo.save(data);
+            await userRepo.save(data);
 
             return res.status(201).json({
                 message: 'Usuário criado com sucesso',
@@ -57,9 +58,9 @@ export default class UserController {
             const data = req.body;
             const { email } = req.params;
 
-            const { id } = await repo.findOneBy({ email });
+            const { id } = await userRepo.findOneBy({ email });
 
-            await repo.update(id, data);
+            await userRepo.update(id, data);
 
             return res.status(300).json({
                 message: `Usuário ${email} atualizado`
@@ -77,12 +78,13 @@ export default class UserController {
         try {
             const { email } = req.params;
 
-            const { id } = await repo.findOneBy({ email });
+            const user = await userRepo.findOneBy({ email });
 
-            await repo.delete(id);
+            await userRepo.delete(user.id);
+            await AccountController.deleteById(user.account.id);
 
             return res.status(200).json({
-                message: `Usuário ${email} deletado`
+                message: `Usuário e conta de ${email} deletado`
             });
         }
         catch (error: any) {

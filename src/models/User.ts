@@ -2,9 +2,12 @@ import {
     Column, 
     CreateDateColumn, 
     Entity, 
+    JoinColumn, 
+    OneToOne, 
     PrimaryGeneratedColumn, 
     UpdateDateColumn 
 } from "typeorm";
+import Account from "./Account";
 
 @Entity()
 export default class User {
@@ -23,6 +26,18 @@ export default class User {
 
     @Column()
     password: string;
+
+    @OneToOne(
+        type => Account, 
+        user => User, 
+        { 
+            cascade: true, 
+            eager: true,
+            onDelete: "CASCADE",
+            
+        })
+    @JoinColumn()
+    account: Account;
 
     @CreateDateColumn({ name: 'created_At' })
     createdAt: Date

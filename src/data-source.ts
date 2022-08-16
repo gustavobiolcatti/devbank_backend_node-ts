@@ -1,7 +1,12 @@
 import dotenv from 'dotenv';
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import User from "./models/User";
+import { relationUserAccount1660600880192 } from './migrations/1660600880192-relationUserAccount';
+import { addAccountBalance1660602550961 } from './migrations/1660602550961-addAccountBalance';
+import { addOperation1660612266624 } from './migrations/1660612266624-addOperation';
+import Account from './models/Account';
+import Operation from './models/Operation';
+import User from './models/User';
 
 dotenv.config();
 
@@ -12,8 +17,12 @@ const dataSource = new DataSource({
     url: process.env.DATABASE_URL,
     synchronize: false,
     logging: false,
-    entities: [User],
-    migrations: ['database/migrations/*.{ts,js}'],
+    entities: [User, Account, Operation],
+    migrations: [
+        relationUserAccount1660600880192, 
+        addAccountBalance1660602550961, 
+        addOperation1660612266624
+    ],
     subscribers: [],
 });
 
