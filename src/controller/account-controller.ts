@@ -61,11 +61,14 @@ export default class AccountController {
 
             const user: User = await userRepo.findOneBy({ email });
 
-            return res.status(200).json(user);
+            return res.status(200).json(user.account.balance);
         } 
         catch (error: any) {
+            const { email } = req.params;
+
             return res.json({
-                message: error.message
+                error: error.message,
+                message: `User ${email} not found`
             });
         };
     };
