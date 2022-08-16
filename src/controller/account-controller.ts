@@ -58,10 +58,10 @@ export default class AccountController {
     static getBalance = async (req: Request, res: Response): Promise<Response> => {
         try {
             const { email } = req.params;
-            
+
             const user: User = await userRepo.findOneBy({ email });
 
-            return res.status(200).json(user.account.balance);
+            return res.status(200).json(user);
         } 
         catch (error: any) {
             return res.json({
