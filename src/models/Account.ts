@@ -17,11 +17,7 @@ export default class Account {
     })
     agency: number;
 
-    @Column({
-        type: "integer",
-        name: 'account_number',
-        unique: true,
-    })
+    @PrimaryGeneratedColumn('increment')
     accountNumber: number;
 
     @Column({
