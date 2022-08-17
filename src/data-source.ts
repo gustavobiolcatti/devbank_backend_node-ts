@@ -1,10 +1,7 @@
 import dotenv from 'dotenv';
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { relationUserAccount1660600880192 } from './migrations/1660600880192-relationUserAccount';
-import { addAccountBalance1660602550961 } from './migrations/1660602550961-addAccountBalance';
-import { addOperation1660612266624 } from './migrations/1660612266624-addOperation';
-import { relationAccountOperation1660771557136 } from './migrations/1660771557136-relationAccountOperation';
+import { createTables1660778958938 } from './migrations/1660778958938-createTables';
 import Account from './models/Account';
 import Operation from './models/Operation';
 import User from './models/User';
@@ -20,10 +17,7 @@ const dataSource = new DataSource({
     logging: false,
     entities: [User, Account, Operation],
     migrations: [
-        relationUserAccount1660600880192, 
-        addAccountBalance1660602550961, 
-        addOperation1660612266624,
-        relationAccountOperation1660771557136
+        createTables1660778958938
     ],
     subscribers: [],
 });

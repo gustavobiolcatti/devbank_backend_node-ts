@@ -15,8 +15,8 @@ export default class AccountController {
             const newBalanceSender = accountSender.balance - value;
             const newBalanceReceiver = accountReceiver.balance + value;
 
-            await accountRepo.update(accountSender.id, {balance: newBalanceSender});
-            await accountRepo.update(accountReceiver.id, {balance: newBalanceReceiver});
+            await accountRepo.update(accountSender.accountNumber, {balance: newBalanceSender});
+            await accountRepo.update(accountReceiver.accountNumber, {balance: newBalanceReceiver});
         }
         catch (error) {};
     };
@@ -34,10 +34,12 @@ export default class AccountController {
         };
     };
 
-    static findById = async (req: Request, res: Response): Promise<Response> => {
+    static findByAccountNumber = async (req: Request, res: Response): Promise<Response> => {
         try {
-            const { id } = req.params;
-            const account: Account = await accountRepo.findOne( { where: { id } });
+            const { accountNumber } = req.params;
+            const accountNumberParsed = parseInt(accountNumber);
+
+            const account: Account = await accountRepo.findOneBy({accountNumber: accountNumberParsed});
 
             return res.status(200).json(account);
         }
@@ -67,10 +69,10 @@ export default class AccountController {
     };
 
     //DELETE
-    static deleteById = async (id: string): Promise<Response> => {
+    static deleteByAccountNumber = async (accountNumber: number): Promise<Response> => {
         try {
-            await accountRepo.delete(id);
-
+            await accountRepo.delete(accountNumber);
+            console.log('conta deletada')
             return response.status(200);
         }
         catch (error: any) {

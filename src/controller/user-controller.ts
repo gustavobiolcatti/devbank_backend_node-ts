@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-import { Repository } from "typeorm";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import User from "../models/User";
 import dataSource from './../data-source';
-import AccountController from "./account-controller";
+import AccountController, { accountRepo } from "./account-controller";
 
 export const userRepo = dataSource.getRepository(User);
 
@@ -115,7 +114,7 @@ export default class UserController {
             const user: User = await userRepo.findOneBy({ email });
 
             await userRepo.delete(user.id);
-            await AccountController.deleteById(user.account.id);
+            await AccountController.deleteByAccountNumber(user.account.accountNumber);
 
             return res.status(200).json({
                 message: `Usuário e conta de ${email} deletado`

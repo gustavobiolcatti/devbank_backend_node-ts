@@ -9,16 +9,13 @@ import User from "./User";
 
 @Entity()
 export default class Account {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
-
+    @PrimaryGeneratedColumn('increment')
+    accountNumber: number;
+    
     @Column({
         default: 1234
     })
     agency: number;
-
-    @PrimaryGeneratedColumn('increment')
-    accountNumber: number;
 
     @Column({
         default: 0,

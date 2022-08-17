@@ -8,6 +8,6 @@ accountRouter.use('/operation', operationRouter);
 
 accountRouter.get('/', AccountController.findAll);
 accountRouter.get('/balance/:email', AccountController.getBalance);
-accountRouter.get('/:id', AccountController.findById);
+accountRouter.get('/:accountNumber', AccountController.findByAccountNumber);
 
 export default accountRouter;
