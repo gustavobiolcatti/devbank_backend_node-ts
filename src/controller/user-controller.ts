@@ -29,7 +29,7 @@ export default class UserController {
             };
 
             return res.status(200).json({
-                user: user,
+                user,
                 message: 'Dados validados'
             });
         } 
