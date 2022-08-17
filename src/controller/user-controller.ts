@@ -28,7 +28,10 @@ export default class UserController {
                 })
             };
 
-            return res.status(200).json({user: user});
+            return res.status(200).json({
+                user: user,
+                message: 'Dados validados'
+            });
         } 
         catch (error: any) {
             return res.json({
