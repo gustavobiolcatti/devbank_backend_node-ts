@@ -28,7 +28,7 @@ export default class UserController {
                 })
             };
 
-            return res.status(200).json(user);
+            return res.status(200).json({user: user});
         } 
         catch (error: any) {
             return res.json({
