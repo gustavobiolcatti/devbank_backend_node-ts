@@ -14,9 +14,15 @@ export default class UserController {
 
             const user = await userRepo.findOneBy({ email: userParam.email });
 
-            if (userParam.password !== user.password) return res.status(400);
+            if (!user) {
+                return res.status(404).json(null)
+            }
 
-            return res.status(200);
+            if (userParam.password !== user.password) {
+                return res.status(400).json(null)
+            };
+
+            return res.status(200).json(user);
         } 
         catch (error: any) {
             return res.json({
