@@ -8,6 +8,23 @@ import AccountController from "./account-controller";
 export const userRepo = dataSource.getRepository(User);
 
 export default class UserController {
+    static verifyUser = async (req: Request, res: Response): Promise<Response> => {
+        try {
+            const userParam = req.body;
+
+            const user = await userRepo.findOneBy({ email: userParam.email });
+
+            if (userParam.password !== user.password) return res.status(400);
+
+            return res.status(200);
+        } 
+        catch (error: any) {
+            return res.json({
+                message: error.message
+            });
+        };
+    }
+
     //GET
     static findAll = async (req: Request, res: Response): Promise<Response>  => {
         try {

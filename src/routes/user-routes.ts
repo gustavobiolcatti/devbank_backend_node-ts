@@ -7,6 +7,7 @@ userRoutes.get('/', UserController.findAll);
 userRoutes.get('/:email', UserController.findByEmail);
 
 userRoutes.post('/', UserController.create);
+userRoutes.post('/login', UserController.verifyUser);
 
 userRoutes.put('/:email', UserController.updateByEmail);
 
