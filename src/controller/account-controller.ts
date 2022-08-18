@@ -18,7 +18,9 @@ export default class AccountController {
             await accountRepo.update(accountSender.accountNumber, {balance: newBalanceSender});
             await accountRepo.update(accountReceiver.accountNumber, {balance: newBalanceReceiver});
         }
-        catch (error) {};
+        catch (error: any) {
+            console.log(`Error :>> ${error.message}`)
+        };
     };
 
     //GET

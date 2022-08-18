@@ -18,6 +18,7 @@ export default class Account {
     agency: number;
 
     @Column({
+        type: "real",
         default: 0,
         nullable: false,
     })
